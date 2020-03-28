@@ -8,7 +8,7 @@
     pointer-events: none;
 }
 
-.first-name, .last-name {
+form input{
     margin-bottom: 16px;
     font-size: large;
 }
