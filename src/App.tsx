@@ -1,54 +1,64 @@
-import React, {ChangeEventHandler, MouseEventHandler} from 'react';
+import React, {ChangeEvent} from 'react';
 import './App.css';
+import NameInput from "./Components/NameInput";
+import SubmitButton from "./Components/SubmitButton";
 
-function App() {
-    let firstName = '';
-    let lastName = '';
-    const nameInputListener: ChangeEventHandler<HTMLInputElement> = function (e) {
+interface State {
+    firstName: string,
+    lastName: string,
+}
+
+class App extends React.Component<{}, State> {
+
+
+    constructor(props: Readonly<{}>) {
+        super(props);
+        this.state = {
+            firstName: '',
+            lastName: '',
+        }
+    }
+
+    handleNameInput = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.className === 'first-name') {
-            firstName = e.target.value;
-        } else {
-            lastName = e.target.value;
+            this.setState({firstName: e.target.value})
+        } else if (e.target.className === 'last-name') {
+            this.setState({lastName: e.target.value})
         }
     };
 
-    const submitClickListener: MouseEventHandler<HTMLButtonElement> = function (e) {
-        alert(`User Name: ${firstName}${lastName}`)
+    handleSubmit = () => {
+        alert(`User Name: ${this.state.firstName} ${this.state.lastName}`)
     };
 
-    return (
-        <form className="App">
-            <h2>Zhang Zhen's React Demo with TypeScript</h2>
-            <h3>User Info:</h3>
-            <label>First Name:</label>
-            <br/>
-            <NameInput changeListener={nameInputListener} className='first-name'/>
-            <br/>
-            <label>Last Name:</label>
-            <br/>
-            <NameInput changeListener={nameInputListener} className='last-name'/>
-            <br/>
-            <SubmitInput clickListener={submitClickListener}/>
-        </form>
-    );
-}
 
-function NameInput(props: {
-    changeListener: ChangeEventHandler<HTMLInputElement>,
-    className: string,
-}) {
-    return (
-        <input type='text' onChange={props.changeListener} className={props.className}/>
-    )
-}
-
-
-function SubmitInput(props: {
-    clickListener: MouseEventHandler<HTMLButtonElement>
-}) {
-    return (
-        <button onClick={props.clickListener}>Submit</button>
-    )
+    render() {
+        return (
+            <form className="App">
+                <h2>Zhang Zhen's React Demo with TypeScript</h2>
+                <h3>User Info:</h3>
+                <div>
+                    <label>First Name:</label>
+                    <br/>
+                    <NameInput
+                        changeListener={this.handleNameInput}
+                        className='first-name'
+                        value={this.state.firstName}/>
+                </div>
+                <br/>
+                <div>
+                    <label>Last Name:</label>
+                    <br/>
+                    <NameInput
+                        changeListener={this.handleNameInput}
+                        className='last-name'
+                        value={this.state.lastName}/>
+                </div>
+                <br/>
+                <SubmitButton clickListener={this.handleSubmit}/>
+            </form>
+        );
+    }
 }
 
 export default App;

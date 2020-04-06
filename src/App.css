@@ -8,8 +8,7 @@
     pointer-events: none;
 }
 
-form input{
-    margin-bottom: 16px;
+form input[type=text]{
     font-size: large;
 }
 button{
